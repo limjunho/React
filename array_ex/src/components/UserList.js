@@ -1,6 +1,14 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 function User({ user, onRemove, onUpdate }) {
+    useEffect(() => {
+        console.log("컴포넌트 등장!");
+        console.log(user);
+        return () =>{
+            console.log("컴포넌트 퇴장..");
+            console.log(user);
+        }
+    }, []);
     return (
         <div>
             <b>{user.username}</b> <span>({user.phonenumber})</span>

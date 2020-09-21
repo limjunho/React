@@ -1,6 +1,12 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useMemo } from 'react';
 import UserList from './components/UserList';
 import CreateUser from './components/CreateUser';
+
+function countUsers(users){
+  console.log("counting users...");
+
+  return users.length;
+}
 
 function App() {
   const [users, setUsers] = useState([
@@ -51,26 +57,30 @@ function App() {
     });
 
     nextId.current += 1;
-  }
+  };
 
   const onRemove = id => {
     setUsers(users.filter(user => user.id !== id));
-  }
+  };
 
   const onUpdate = id => {
     setUsers(
       users.map(user =>
         user.id === id ?
-          { username: username, phonenumber: phonenumber }
+          { id: nextId.current, username: username, phonenumber: phonenumber }
           : user
       )
-    )
+    );
 
     setInputs({
       username: '',
       phonenumber: ''
     });
-  }
+
+    nextId.current += 1;
+  };
+
+  const count = useMemo(() => countUsers(users), [users]);
 
   return (
     <div>
@@ -81,8 +91,9 @@ function App() {
         onCreate={onCreate}
       />
       <UserList users={users} onRemove={onRemove} onUpdate={onUpdate} />
+      <div>사용자 수 : {count}</div>
     </div>
   );
-}
+};
 
 export default App;
