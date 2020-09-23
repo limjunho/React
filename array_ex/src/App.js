@@ -1,8 +1,8 @@
-import React, { useRef, useState, useMemo } from 'react';
+import React, { useRef, useState, useMemo, useCallback } from 'react';
 import UserList from './components/UserList';
 import CreateUser from './components/CreateUser';
 
-function countUsers(users){
+function countUsers(users) {
   console.log("counting users...");
 
   return users.length;
@@ -33,23 +33,26 @@ function App() {
   });
   const { username, phonenumber } = inputs;
 
-  const onChange = e => {
-    const { name, value } = e.target;
-    setInputs({
-      ...inputs,
-      [name]: value
-    });
-  };
+  const onChange = useCallback(
+    e => {
+      const { name, value } = e.target;
+      setInputs({
+        ...inputs,
+        [name]: value
+      });
+    },
+    [inputs]
+  );
 
   const nextId = useRef(4);
 
-  const onCreate = () => {
+  const onCreate = useCallback(() => {
     const user = {
       id: nextId.current,
       username,
       phonenumber
     };
-    setUsers(users.concat(user))
+    setUsers(users => users.concat(user));
 
     setInputs({
       username: '',
@@ -57,11 +60,14 @@ function App() {
     });
 
     nextId.current += 1;
-  };
+  }, [username, phonenumber]);
 
-  const onRemove = id => {
-    setUsers(users.filter(user => user.id !== id));
-  };
+  const onRemove = useCallback(
+    id => {
+      setUsers(users => users.filter(user => user.id !== id));
+    },
+    []
+  );
 
   const onUpdate = id => {
     setUsers(

@@ -16,7 +16,7 @@ function User({ user, onRemove, onUpdate }) {
             <button onClick={() => onUpdate(user.id)}>수정</button>
         </div>
     )
-}
+};
 
 function UserList({ users, onRemove, onUpdate }) {
     return (
