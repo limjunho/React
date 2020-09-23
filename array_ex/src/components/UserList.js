@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 
-function User({ user, onRemove, onUpdate }) {
+const User = React.memo(function User({ user, onRemove, onUpdate }) {
     useEffect(() => {
         console.log("컴포넌트 등장!");
         console.log(user);
@@ -8,7 +8,7 @@ function User({ user, onRemove, onUpdate }) {
             console.log("컴포넌트 퇴장..");
             console.log(user);
         }
-    }, []);
+    }, [user]);
     return (
         <div>
             <b>{user.username}</b> <span>({user.phonenumber})</span>
@@ -16,7 +16,7 @@ function User({ user, onRemove, onUpdate }) {
             <button onClick={() => onUpdate(user.id)}>수정</button>
         </div>
     )
-};
+});
 
 function UserList({ users, onRemove, onUpdate }) {
     return (
@@ -31,4 +31,4 @@ function UserList({ users, onRemove, onUpdate }) {
     );
 }
 
-export default UserList;
+export default React.memo(UserList);

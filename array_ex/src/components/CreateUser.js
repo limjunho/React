@@ -22,4 +22,4 @@ function CreateUser({ username, phonenumber, onChange, onCreate }) {
   );
 }
 
-export default CreateUser;
+export default React.memo(CreateUser);
